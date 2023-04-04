@@ -3,7 +3,7 @@ use rocket::fs::TempFile;
 use uuid::Uuid;
 use std::path::Path;
 
-#[post("/upload", format = "plain", data = "<file>")]
+#[post("/upload", data = "<file>")]
 async fn upload(mut file: TempFile<'_>) -> std::io::Result<()> {
     let id = Uuid::new_v4();
     let form = format!("./files/{}", id.to_string());
