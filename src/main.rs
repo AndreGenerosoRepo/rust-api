@@ -8,7 +8,8 @@ async fn upload(mut file: TempFile<'_>) -> std::io::Result<()> {
     let id = Uuid::new_v4();
     let form = format!("./files/{}", id.to_string());
     let path = Path::new(&form);
-    file.persist_to(path).await
+    file.persist_to(path).await?;
+    Ok(())
 }
 
 #[get("/download/<identifier>")]
@@ -33,5 +34,5 @@ fn list() -> &'static str {
 
 #[launch]
 fn rocket() -> _ {
-    rocket::build().mount("/v1", routes![upload,download,delete,replace])
+    rocket::build().mount("/v1", routes![upload,download,delete,replace,list])
 }
